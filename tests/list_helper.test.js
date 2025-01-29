@@ -31,7 +31,7 @@ const list = [
   {
         _id: '5a422aa71b54a676234d17f8',
         title: 'La Guerra Del Arte',
-        author: 'no me acuerdo',
+        author: 'Edsger W. Dijkstra',
         url: 'https://homepages.cwi.nl/~storm/teaching/reader/Dijkstra68.pdf',
         likes: 10,
         __v: 0
@@ -39,7 +39,7 @@ const list = [
   {
         _id: '5a422aa71b54a676234d17f8',
         title: 'El Sutil Arte De Que Te Importe Una Mierda',
-        author: 'no ni idea capo',
+        author: 'no me acuerdo',
         url: 'https://homepages.cwi.nl/~storm/teaching/reader/Dijkstra68.pdf',
         likes: 7,
         __v: 0
@@ -74,12 +74,27 @@ describe('favourite blog', () => {
   test('when list has only one blog equals the blog', () => {
     const result = listHelper.favouriteBlog(listWithOneBlog)
     assert.deepStrictEqual(result, listWithOneBlog[0])
-    console.log(result)
   })
 
   test('of a bigger list is calculated right', () => {
     const result = listHelper.favouriteBlog(list)
     assert.deepStrictEqual(result, list[1])
-    console.log(result)
+  })
+
+  describe('most blogs', () => {
+    test('of empty list is null', () => {
+      const result = listHelper.mostBlogs([])
+      assert.deepStrictEqual(result, null)
+    })
+    
+    test('when list has only one blog equals the author and 1', () => {
+      const result = listHelper.mostBlogs(listWithOneBlog)
+      assert.deepStrictEqual(result, { author: listWithOneBlog[0].author, blogs: 1 })
+    })
+
+    test('of a bigger list is calculated right', () => {
+      const result = listHelper.mostBlogs(list)
+      assert.deepStrictEqual(result, { author: 'Edsger W. Dijkstra  ', blogs: 2 })
+    })
   })
 })
