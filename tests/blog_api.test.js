@@ -100,6 +100,20 @@ describe('delete tests', () => {
     })
 })
 
+describe('put tests', () => {
+    test('a blog can be update likes', async () => {
+        const response = await api.get('/api/blogs')
+        const id = response.body[0].id
+        const likes = response.body[0].likes + 10
+        const updatedBlog = { likes: likes }
+        await api
+            .put('/api/blogs/' + id)
+            .send(updatedBlog)
+
+        const updatedResponse = await api.get('/api/blogs/' + id)
+        assert.strictEqual(updatedResponse.body.likes, likes)
+    })
+})
 after(async () => {
     await mongoose.connection.close()
 })
