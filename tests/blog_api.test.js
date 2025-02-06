@@ -28,6 +28,10 @@ const initialBlogs = [
     }
 ]
 
+const newBlog = {
+    title: 'titulo test'
+}
+
 beforeEach(async () => {
     await Blog.deleteMany({})
     let blogObject = new Blog(initialBlogs[0])
@@ -36,7 +40,7 @@ beforeEach(async () => {
     await blogObject.save()
     blogObject = new Blog(initialBlogs[2])
     await blogObject.save()
-  })
+})
 
 describe('geters tests', () => {
 
@@ -60,16 +64,20 @@ describe('geters tests', () => {
     })
 })
 describe('post tests', () => {
-
     test('a blog can be added', async () => {
-        const newBlog = {
-            title: 'titulo test'
-        }
         
         await api
         .post('/api/blogs')
         .send(newBlog)
         .expect(201)
+    })
+
+    test('a blog without likes will have 0 likes', async () => {
+        const response = await api
+            .post('/api/blogs')
+            .send(newBlog)
+        
+        assert.strictEqual(response.body.likes, 0)
     })
 })
     
