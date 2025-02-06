@@ -89,7 +89,17 @@ describe('post tests', () => {
         .expect(400)
     } )
 })
-    
+
+describe('delete tests', () => {
+    test('a blog can be deleted', async () => {
+        const response = await api.get('/api/blogs')
+        const id = response.body[0].id
+        await api
+            .delete('/api/blogs/' + id)
+            .expect(204)
+    })
+})
+
 after(async () => {
     await mongoose.connection.close()
 })
