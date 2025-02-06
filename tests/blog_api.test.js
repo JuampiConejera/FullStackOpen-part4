@@ -29,7 +29,9 @@ const initialBlogs = [
 ]
 
 const newBlog = {
-    title: 'titulo test'
+    title: 'titulo test',
+    author: 'tester',
+    url: 'test.com',
 }
 
 beforeEach(async () => {
@@ -79,6 +81,13 @@ describe('post tests', () => {
         
         assert.strictEqual(response.body.likes, 0)
     })
+    
+    test('a blog without title or url will return bad request', async () => {
+        await api
+        .post('/api/blogs')
+        .send({ author: 'test without title or url', likes: 1})
+        .expect(400)
+    } )
 })
     
 after(async () => {
