@@ -1,4 +1,4 @@
-const { test, after, beforeEach} = require('node:test')
+const { test, describe, after, beforeEach} = require('node:test')
 const { mongoose } = require('mongoose')
 const supertest = require('supertest')
 const assert = require('assert')
@@ -38,25 +38,41 @@ beforeEach(async () => {
     await blogObject.save()
   })
 
-test('blogs are returned as json', async () => {
-    await api
-    .get('/api/blogs')
-    .expect(200)
-    .expect('content-type', /application\/json/)
+describe('geters tests', () => {
+
+    test('blogs are returned as json', async () => {
+        await api
+        .get('/api/blogs')
+        .expect(200)
+        .expect('content-type', /application\/json/)
+    })
+    
+    test('there are three blogs', async () => {
+        const response = await api.get('/api/blogs')
+        
+        assert.strictEqual(response.body.length, 3)
+    })
+    
+    test('verify the unique identifier property is named id', async () => {
+        const response = await api.get('/api/blogs')
+        
+        assert.strictEqual(response.body[0].id, response.body[0]._id)
+    })
 })
+describe('post tests', () => {
 
-test('there are three blogs', async () => {
-    const response = await api.get('/api/blogs')
-
-    assert.strictEqual(response.body.length, 3)
+    test('a blog can be added', async () => {
+        const newBlog = {
+            title: 'titulo test'
+        }
+        
+        await api
+        .post('/api/blogs')
+        .send(newBlog)
+        .expect(201)
+    })
 })
-
-test('verify the unique identifier property is named id', async () => {
-    const response = await api.get('/api/blogs')
-
-    assert.strictEqual(response.body[0].id, response.body[0]._id)
-})
-
+    
 after(async () => {
     await mongoose.connection.close()
 })
