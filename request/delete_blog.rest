@@ -1,0 +1,2 @@
+DELETE http://localhost:3001/api/blogs/67ad10b07e58630457dbf60f
+Authorization: Bearer 
