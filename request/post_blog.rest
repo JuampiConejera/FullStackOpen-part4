@@ -2,8 +2,7 @@ POST http://localhost:3001/api/blogs
 Content-Type: application/json
 
 {
-    "title": "soyrecapo",
-    "author": "como me pudo haber",
-    "url": "faltado la /.com",
-    "likes": -10
+    "title": "hermana del capo",
+    "author": "iara",
+    "url": "ssiis.net"
 }
