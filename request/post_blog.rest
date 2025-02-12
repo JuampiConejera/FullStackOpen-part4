@@ -1,8 +1,8 @@
 POST http://localhost:3001/api/blogs
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InlvbyIsImlkIjoiNjdhZDA4NWQxNDIyNzQxYmJmYmJkMWUzIiwiaWF0IjoxNzM5Mzk0ODIyfQ.FtgO76cAtc0SqW_xdBp2IhL5woXC9-6SO-bMx-vvcdk
 
 {
     "title": "hermana del capo",
-    "author": "iara",
     "url": "ssiis.net"
 }
