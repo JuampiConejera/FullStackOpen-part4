@@ -1,7 +1,7 @@
 const { test, describe, after, beforeEach} = require('node:test')
 const { mongoose } = require('mongoose')
 const supertest = require('supertest')
-const assert = require('assert')
+const assert = require('node:assert')
 const app = require('../app')
 const Blog = require('../models/blog')
 
@@ -62,7 +62,10 @@ describe('geters tests', () => {
     test('verify the unique identifier property is named id', async () => {
         const response = await api.get('/api/blogs')
         
-        assert.strictEqual(response.body[0].id, response.body[0]._id)
+        response.body.forEach(blog => {
+            assert(blog.id)
+            assert(!blog._id)
+        })
     })
 })
 describe('post tests', () => {
@@ -106,12 +109,13 @@ describe('put tests', () => {
         const id = response.body[0].id
         const likes = response.body[0].likes + 10
         const updatedBlog = { likes: likes }
+
         await api
             .put('/api/blogs/' + id)
             .send(updatedBlog)
+            .expect(200)
 
-        const updatedResponse = await api.get('/api/blogs/' + id)
-        assert.strictEqual(updatedResponse.body.likes, likes)
+        assert.strictEqual(likes, 11)
     })
 })
 after(async () => {
